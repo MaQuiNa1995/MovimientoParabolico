@@ -13,8 +13,8 @@ public class Ventana extends JFrame {
     // TODO Generar UUID
     private static final long serialVersionUID = 1L;
 
-    public static final int X = 1280;
-    public static final int Y = 1000;
+    public static final int X = 400;
+    public static final int Y = 200;
     private final static Dimension DIMENSIONES_VENTANA = new Dimension(X, Y);
 
     public void iniciarVentana() {
@@ -30,6 +30,5 @@ public class Ventana extends JFrame {
 
 	Container cp = getContentPane();
 	cp.add(canvas);
-
     }
 }
