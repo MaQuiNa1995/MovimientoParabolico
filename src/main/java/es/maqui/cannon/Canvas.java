@@ -44,7 +44,7 @@ public class Canvas extends JPanel {
 	    @Override
 	    public void mouseMoved(MouseEvent e) {
 		listaLineas.clear();
-		listaLineas.add(new Linea(200, Ventana.Y - 40, e.getX(), e.getY()));
+		listaLineas.add(new Linea(200, Ventana.Y - 140, e.getX(), e.getY()));
 		repaint();
 	    }
 
