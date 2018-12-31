@@ -1,8 +1,13 @@
 package es.maqui.cannon;
 
-public class Main {
+import javax.swing.SwingUtilities;
 
+public class Main {
     public static void main(String[] args) {
-	new Ventana().iniciarVentana();
+	SwingUtilities.invokeLater(new Runnable() {
+	    public void run() {
+		new Ventana().iniciarVentana();
+	    }
+	});
     }
 }

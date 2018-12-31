@@ -1,22 +1,35 @@
 package es.maqui.cannon;
 
-import java.awt.BorderLayout;
-import java.awt.Label;
+import java.awt.Container;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-public class Ventana {
+public class Ventana extends JFrame {
 
-    private static final int COMPONENTE_X = 800;
-    private static final int COMPONENTE_Y = 600;
+    /**
+     * 
+     */
+    // TODO Generar UUID
+    private static final long serialVersionUID = 1L;
+
+    public static final int X = 1280;
+    public static final int Y = 1000;
+    private final static Dimension DIMENSIONES_VENTANA = new Dimension(X, Y);
 
     public void iniciarVentana() {
-	JFrame frame = new JFrame("Ventana Animacion parabolica");
 
-	frame.setBounds(0, 0, COMPONENTE_X, COMPONENTE_Y);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+	setTitle("Simulacion De Bala De Cañon");
+	setVisible(true);
+	setSize(DIMENSIONES_VENTANA);
 
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.getContentPane().add(new Label(), BorderLayout.CENTER);
-	frame.setVisible(true);
+	Canvas canvas = new Canvas();
+	canvas.setLocation(0, 0);
+	canvas.setPreferredSize(DIMENSIONES_VENTANA);
+
+	Container cp = getContentPane();
+	cp.add(canvas);
+
     }
 }
