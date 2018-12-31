@@ -16,7 +16,7 @@ public class Canvas extends JPanel {
      */
     private static final long serialVersionUID = 1L;
 
-    private List<Linea> listaLineas = new ArrayList<>();
+    private List<Parabola> listaParabolas = new ArrayList<>();
 
     public Canvas() {
 	super();
@@ -25,12 +25,18 @@ public class Canvas extends JPanel {
 
 	    @Override
 	    public void mouseMoved(MouseEvent e) {
-//		listaLineas.clear();
-//		listaLineas.add(new Linea(200, Ventana.Y - 140, e.getX(), e.getY()));
+		listaParabolas.clear();
 
-		double distanciaMouse = calcularDistanciaMaxY(e.getX(), e.getY());
-		double anguloLanzamiento = calcularAnguloLanzamiento(e.getX(), e.getY(), distanciaMouse);
+		Double distanciaY = calcularDistanciaMaxY(e.getX(), e.getY());
 
+		Parabola parabola = new Parabola();
+		parabola.setxInicial(200D);
+		parabola.setyInicial(Ventana.Y - 140D);
+		parabola.setDistanciaMaxY(distanciaY);
+		parabola.setAngulo(calcularAnguloLanzamiento(e.getX(), e.getY(), distanciaY));
+		parabola.setVelocidad(10D);
+
+		listaParabolas.add(parabola);
 		repaint();
 	    }
 
@@ -44,6 +50,7 @@ public class Canvas extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
 
+	// TODO mirar eficiencia con Timer en vez de un hilo
 	/**
 	 * Hacemos una pausa de 50 milisegundos para no sobrecargar la CPU de 30% a 4%
 	 * de uso con el cambio
@@ -56,18 +63,57 @@ public class Canvas extends JPanel {
 
 	super.paintComponent(g);
 	setBackground(Color.BLACK);
-	g.setColor(Color.YELLOW);
+
+	g.setColor(Color.BLUE);
+	g.fillRect(0, 140, 200, 100);
 
 	g.setColor(Color.YELLOW);
-	g.fillRect(0, Ventana.Y - 140, 200, 100);
-
-	for (Linea lineaPintar : listaLineas) {
-	    pintar(lineaPintar, g);
+	for (Parabola parabola : listaParabolas) {
+	    pintarParabola(parabola, g);
 	}
     }
 
-    private void pintar(Linea lineaPintar, Graphics g) {
-	g.drawLine(lineaPintar.getX(), lineaPintar.getY(), lineaPintar.getxFin(), lineaPintar.getyFin());
+    private void pintarParabola(Parabola parabola, Graphics g) {
+
+	double tiempo = 1;
+
+	// g.drawLine(parabola.getX(), parabola.getY(), parabola.getxFin(),
+	// parabola.getyFin());
+
+	double veloInicialX = parabola.getVelocidad() * StrictMath.acos(parabola.getAngulo());
+	double veloinicialY = parabola.getVelocidad() * StrictMath.asin(parabola.getAngulo());
+
+	// Asignacion inutil a efectos practicos pero si mentales para entender de donde
+	// sale todo
+	double veloX = veloInicialX;
+
+	while (true) {
+
+//	    double veloY = veloinicialY - Constantes.GRAVEDAD * tiempo;
+
+	    Double x = veloX * tiempo;
+	    Double y = parabola.getyInicial() + veloinicialY * tiempo
+		    - 0.5 * Constantes.GRAVEDAD * StrictMath.pow(tiempo, 2);
+
+	    try {
+		Thread.sleep(1);
+	    } catch (InterruptedException excepcion) {
+		// TODO manejar excepcion
+	    }
+
+	    if (y < 0 || y > 800) {
+		break;
+	    }
+
+	    tiempo++;
+	    g.drawLine(parabola.getxInicial().intValue(), parabola.getyInicial().intValue(), x.intValue(),
+		    y.intValue());
+
+	    parabola.setxInicial(x);
+	    parabola.setyInicial(y);
+
+	}
+
     }
 
     private double calcularDistanciaMaxY(double x, double y) {
