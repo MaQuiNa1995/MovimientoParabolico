@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -22,12 +21,13 @@ public class Canvas extends JPanel {
     public Canvas() {
 	super();
 
-	this.addMouseMotionListener(new MouseMotionListener() {
+	addMouseMotionListener(new MouseMotionListener() {
 
 	    @Override
 	    public void mouseMoved(MouseEvent e) {
 		listaLineas.clear();
 		listaLineas.add(new Linea(200, Ventana.Y - 140, e.getX(), e.getY()));
+
 		repaint();
 	    }
 
@@ -55,17 +55,31 @@ public class Canvas extends JPanel {
 	setBackground(Color.BLACK);
 	g.setColor(Color.YELLOW);
 
-	Iterator<Linea> iterator = listaLineas.iterator();
-	while (iterator.hasNext()) {
-	    pintar(iterator.next(), g);
-	}
+	g.setColor(Color.YELLOW);
+	g.fillRect(0, Ventana.Y - 140, 200, 100);
 
+	for (Linea lineaPintar : listaLineas) {
+	    pintar(lineaPintar, g);
+	}
     }
 
-    private void pintar(Linea lineaActual, Graphics g) {
+    private void pintar(Linea lineaPintar, Graphics g) {
+	g.drawLine(lineaPintar.getX(), lineaPintar.getY(), lineaPintar.getxFin(), lineaPintar.getyFin());
+    }
 
-	g.drawLine(lineaActual.getX(), lineaActual.getY(), lineaActual.getxFin(), lineaActual.getyFin());
-	repaint();
+    private double calcularDistanciaMaxY(double x, double y) {
+
+	double raizCuadrada = StrictMath.pow(x, 2d) + StrictMath.pow(y, 2d);
+	return StrictMath.sqrt(raizCuadrada);
+    }
+
+    private double calcularAnguloLanzamiento(int x, int y, double distanciaMaxY) {
+	double anguloLanzamiento = 0d;
+
+	double divisor = StrictMath.pow(x, 2d) + StrictMath.pow(distanciaMaxY, 2d) - StrictMath.pow(y, 2d);
+	double dividendo = 2 * x * distanciaMaxY;
+
+	return divisor / dividendo;
     }
 
 }

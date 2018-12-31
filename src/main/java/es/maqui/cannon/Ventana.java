@@ -13,8 +13,8 @@ public class Ventana extends JFrame {
     // TODO Generar UUID
     private static final long serialVersionUID = 1L;
 
-    public static final int X = 400;
-    public static final int Y = 200;
+    public static final int X = 800;
+    public static final int Y = 600;
     private final static Dimension DIMENSIONES_VENTANA = new Dimension(X, Y);
 
     public void iniciarVentana() {
