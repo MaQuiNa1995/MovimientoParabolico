@@ -7,6 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -32,11 +33,10 @@ public class Canvas extends JPanel {
 	Graphics2D graphicSpace = (Graphics2D) g;
 	graphicSpace.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	synchronized (listaLineas) {
-	    /**
-	     * Solo habra una linea a la vez en la lista asique este metodo nos vale
-	     */
-	    pintar(listaLineas.get(0), graphicSpace);
-
+	    Iterator<Linea> iterator = listaLineas.iterator();
+	    while (iterator.hasNext()) {
+		pintar(iterator.next(), g);
+	    }
 	}
 
 	this.addMouseMotionListener(new MouseMotionListener() {
