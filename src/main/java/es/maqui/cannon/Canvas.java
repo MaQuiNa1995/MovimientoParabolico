@@ -25,8 +25,11 @@ public class Canvas extends JPanel {
 
 	    @Override
 	    public void mouseMoved(MouseEvent e) {
-		listaLineas.clear();
-		listaLineas.add(new Linea(200, Ventana.Y - 140, e.getX(), e.getY()));
+//		listaLineas.clear();
+//		listaLineas.add(new Linea(200, Ventana.Y - 140, e.getX(), e.getY()));
+
+		double distanciaMouse = calcularDistanciaMaxY(e.getX(), e.getY());
+		double anguloLanzamiento = calcularAnguloLanzamiento(e.getX(), e.getY(), distanciaMouse);
 
 		repaint();
 	    }
@@ -74,12 +77,12 @@ public class Canvas extends JPanel {
     }
 
     private double calcularAnguloLanzamiento(int x, int y, double distanciaMaxY) {
-	double anguloLanzamiento = 0d;
 
 	double divisor = StrictMath.pow(x, 2d) + StrictMath.pow(distanciaMaxY, 2d) - StrictMath.pow(y, 2d);
 	double dividendo = 2 * x * distanciaMaxY;
+	double cociente = divisor / dividendo;
 
-	return divisor / dividendo;
+	return StrictMath.acos(cociente);
     }
 
 }
