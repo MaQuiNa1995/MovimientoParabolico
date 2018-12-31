@@ -50,20 +50,15 @@ public class Canvas extends JPanel {
 	} catch (InterruptedException excepcion) {
 	    // TODO manejar excepcion
 	}
+
 	super.paintComponent(g);
 	setBackground(Color.BLACK);
-
 	g.setColor(Color.YELLOW);
-//	g.fillRect(0, Ventana.Y - 140, 200, 100);
 
-//	Graphics2D graphicSpace = (Graphics2D) g;
-//	graphicSpace.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//	synchronized (listaLineas) {
 	Iterator<Linea> iterator = listaLineas.iterator();
 	while (iterator.hasNext()) {
 	    pintar(iterator.next(), g);
 	}
-//	}
 
     }
 
